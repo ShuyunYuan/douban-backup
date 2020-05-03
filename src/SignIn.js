@@ -1,11 +1,8 @@
 import React from 'react';
 import { green } from '@material-ui/core/colors';
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/styles';
-import SelectContent from "./components/SelectContent";
-import NavBar from "./components/NavBar";
-import Main from "./components/Main";
+import SignInCard from './components/SignInCard';
 
 const theme = createMuiTheme({
     palette: {
@@ -24,30 +21,24 @@ const useStyles = makeStyles({
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        // backgroundColor: green[500],
-    },
-    navbar: {
-
-    },
-    content: {
-        flex: 1,
-        display: 'flex',
+        alignItems: 'center',
         justifyContent: 'center',
+        // backgroundColor: green[500],
+        backgroundColor: 'burlywood', /* to be deleted*/
     },
-    page: {
+    card: {
         width: 400,
-    }
+        margin: 24,
+    },
 });
 
-function App() {
+export default function SignIn() {
     const classes = useStyles();
     return (
-        <CssBaseline>
-            <ThemeProvider theme={theme}>
-                <Main />
-            </ThemeProvider>
-        </CssBaseline>
+        <ThemeProvider theme={theme}>
+            <div className={classes.root}>
+                <SignInCard className={classes.card} />
+            </div>
+        </ThemeProvider>
     );
 }
-
-export default App;
