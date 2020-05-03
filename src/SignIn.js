@@ -2,7 +2,7 @@ import React from 'react';
 import { green } from '@material-ui/core/colors';
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import SignInCard from './components/SignInCard';
+import SignIn from './components/SignIn';
 
 const theme = createMuiTheme({
     palette: {
@@ -37,7 +37,7 @@ export default function SignIn() {
     return (
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
-                <SignInCard className={classes.card} />
+                <SignIn className={classes.card} />
             </div>
         </ThemeProvider>
     );

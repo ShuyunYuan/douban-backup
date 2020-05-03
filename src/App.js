@@ -4,18 +4,31 @@ import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/styles';
 import SelectContent from "./components/SelectContent";
-import NavBar from "./components/NavBar";
 import Main from "./components/Main";
 
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: green[500],
+            main: green[600],
         },
         secondary: {
-            main: green[500],
+            main: green[600],
         },
-        contrastThreshold: 0,
+        background: {
+            default: '#ffffff',
+        }
+    },
+    overrides: {
+        MuiAppBar: {
+            colorDefault: {
+                backgroundColor: 'white',
+            },
+        },
+        MuiDrawer: {
+            paperAnchorDockedLeft: {
+                borderRight: 'none',
+            },
+        },
     },
 });
 
@@ -42,11 +55,11 @@ const useStyles = makeStyles({
 function App() {
     const classes = useStyles();
     return (
-        <CssBaseline>
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <CssBaseline>
                 <Main />
-            </ThemeProvider>
-        </CssBaseline>
+            </CssBaseline>
+        </ThemeProvider>
     );
 }
 
