@@ -18,8 +18,11 @@ import MusicNoteIcon from '@material-ui/icons/MusicNote';
 const useStyles = makeStyles((theme) => ({
     bottomBar: {
         top: 'auto',
-        bottom: 0,
+        bottom: 0
     },
+    startButton: {
+        marginRight: 48
+    }
 }));
 
 const items = [
@@ -83,7 +86,7 @@ export default function SelectContent(props) {
             <AppBar color='default' className={classes.bottomBar}>
                 <Toolbar>
                     <Box flexGrow='1' />
-                    <Button color='primary' disabled={isNoneChecked} variant='contained'>
+                    <Button color='primary' disabled={isNoneChecked} variant='contained' className={classes.startButton}>
                         开始备份
                     </Button>
                 </Toolbar>

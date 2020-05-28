@@ -17,7 +17,8 @@ import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 
 import ElevationScroll from "./ElevationScroll";
 import SelectContent from "./SelectContent";
-import SignIn from "./SignIn";
+import SignIn from "./SignIn"
+import SelectAccount from "./SelectAccount";
 
 const drawerWidth = 280;
 
@@ -75,7 +76,8 @@ export default function Main() {
                 <Toolbar />
                 <Box maxWidth={936} padding='0 48px'>
                     {/*<SelectContent />*/}
-                    <SignIn />
+                    <SelectAccount />
+                    {/*<SignIn />*/}
                 </Box>
             </Box>
         </Box>

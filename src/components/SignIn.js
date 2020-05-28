@@ -32,7 +32,7 @@ export default function SignIn() {
             <Card variant='outlined'>
                 <Box className={classes.cardContent}>
                     <Typography align='center' variant='h4' className={classes.title}>
-                        登录豆瓣账户
+                        登录豆瓣账号
                     </Typography>
                     <TextField id='username' fullWidth label='用户名' variant='outlined' />
                     <TextField
@@ -40,7 +40,7 @@ export default function SignIn() {
                         variant='outlined' />
                     <Box display='flex'>
                         <Button color="primary" className={classes.chooseAccountButton}>
-                            选择帐户
+                            选择账号
                         </Button>
                         <Button color='primary' disableElevation variant='contained' className={classes.signInButton}>
                             登录
