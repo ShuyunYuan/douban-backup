@@ -1,11 +1,6 @@
-import React from 'react';
+import { Box, Button, Card, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import Container from "@material-ui/core/Container";
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
 
 const useStyles = makeStyles(theme => ({
     cardContent: {

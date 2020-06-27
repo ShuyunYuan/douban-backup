@@ -1,24 +1,31 @@
-import React from 'react';
+import {
+    AppBar, Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box'
-import Container from "@material-ui/core/Container";
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from "@material-ui/core/Typography";
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
-import PlaylistAddCheckOutlinedIcon from '@material-ui/icons/PlaylistAddCheckOutlined';
-import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
+import { CloudUploadOutlined, GetAppOutlined, PlaylistAddCheckOutlined, SettingsOutlined } from '@material-ui/icons';
+import React from 'react';
 
-import ElevationScroll from "./ElevationScroll";
-import SelectContent from "./SelectContent";
-import SignIn from "./SignIn"
-import SelectAccount from "./SelectAccount";
+import ElevateOnScroll from './ElevateOnScroll';
+import SelectAccount from './SelectAccount';
+
+const drawerItems = [
+    {
+        icon: <GetAppOutlined />,
+        text: '开始备份',
+    },
+    {
+        icon: <PlaylistAddCheckOutlined />,
+        text: '任务列表',
+    },
+    {
+        icon: <CloudUploadOutlined />,
+        text: '开始恢复',
+    },
+    {
+        icon: <SettingsOutlined />,
+        text: '设置',
+    },
+];
 
 const drawerWidth = 280;
 
@@ -42,7 +49,7 @@ export default function Main() {
     const classes = useStyles();
     return (
         <Box display='flex'>
-            <ElevationScroll>
+            <ElevateOnScroll>
                 <AppBar color='default' className={classes.appBar}>
                     <Toolbar>
                         <Typography variant="h6" noWrap>
@@ -50,7 +57,7 @@ export default function Main() {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-            </ElevationScroll>
+            </ElevateOnScroll>
             <Drawer
                 className={classes.drawer}
                 variant="permanent"
@@ -58,13 +65,8 @@ export default function Main() {
                 <Toolbar />
                 <div className={classes.drawerContainer}>
                     <List>
-                        {[
-                            ['开始备份', <GetAppOutlinedIcon />],
-                            ['任务列表', <PlaylistAddCheckOutlinedIcon />],
-                            ['开始恢复', <CloudUploadOutlinedIcon />],
-                            ['设置', <SettingsOutlinedIcon />]
-                        ].map(([text, icon], index) => (
-                            <ListItem button key={text} selected={index === 0}>
+                        {drawerItems.map(({ icon, text }, index) => (
+                            <ListItem key={text} button selected={index === 0}>
                                 <ListItemIcon>{icon}</ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
