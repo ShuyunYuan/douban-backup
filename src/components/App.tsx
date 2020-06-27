@@ -1,10 +1,10 @@
 import { CssBaseline } from '@material-ui/core';
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 
-import Main from "./components/Main";
+import Main from './Main';
 
 const theme = createMuiTheme({
   palette: {
@@ -21,39 +21,32 @@ const theme = createMuiTheme({
   overrides: {
     MuiAppBar: {
       colorDefault: {
-        backgroundColor: 'white',
+        backgroundColor: '#ffffff',
+      },
+    },
+    MuiCard: {
+      root: {
+        borderRadius: 8,
       },
     },
     MuiDrawer: {
       paperAnchorDockedLeft: {
         borderRight: 'none',
+        '& .MuiListItem-button': {
+          borderRadius: '0 24px 24px 0',
+        },
+        '& .MuiListItem-gutters': {
+          '@media (min-width: 600px)': {
+            paddingLeft: 24,
+            paddingRight: 24,
+          },
+        },
       },
     },
   },
 });
 
-const useStyles = makeStyles({
-  root: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    // backgroundColor: green[500],
-  },
-  navbar: {
-
-  },
-  content: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  page: {
-    width: 400,
-  }
-});
-
 export default function App() {
-  const classes = useStyles();
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline>

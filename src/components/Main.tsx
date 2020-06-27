@@ -7,6 +7,7 @@ import React from 'react';
 
 import ElevateOnScroll from './ElevateOnScroll';
 import SelectAccount from './SelectAccount';
+import SignIn from './SignIn';
 
 const drawerItems = [
     {
@@ -33,22 +34,19 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
     },
-    drawer: {
+    drawerRoot: {
         width: drawerWidth,
         flexShrink: 0,
     },
     drawerPaper: {
         width: drawerWidth,
     },
-    drawerContainer: {
-        overflow: 'auto',
-    },
 }));
 
 export default function Main() {
     const classes = useStyles();
     return (
-        <Box display='flex'>
+        <Box flex={1} display='flex'>
             <ElevateOnScroll>
                 <AppBar color='default' className={classes.appBar}>
                     <Toolbar>
@@ -58,28 +56,23 @@ export default function Main() {
                     </Toolbar>
                 </AppBar>
             </ElevateOnScroll>
-            <Drawer
-                className={classes.drawer}
-                variant="permanent"
-                classes={{ paper: classes.drawerPaper }}>
+            <Drawer variant="permanent" classes={{ root: classes.drawerRoot, paper: classes.drawerPaper }}>
                 <Toolbar />
-                <div className={classes.drawerContainer}>
-                    <List>
-                        {drawerItems.map(({ icon, text }, index) => (
-                            <ListItem key={text} button selected={index === 0}>
-                                <ListItemIcon>{icon}</ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </div>
+                <List>
+                    {drawerItems.map(({ icon, text }, index) => (
+                        <ListItem key={text} button selected={index === 0}>
+                            <ListItemIcon>{icon}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    ))}
+                </List>
             </Drawer>
-            <Box flexGrow={1} flexShrink={1} display='flex' flexDirection='column'>
+            <Box flex={1} display='flex' flexDirection='column'>
                 <Toolbar />
                 <Box maxWidth={936} padding='0 48px'>
                     {/*<SelectContent />*/}
-                    <SelectAccount />
-                    {/*<SignIn />*/}
+                    {/*<SelectAccount />*/}
+                    <SignIn />
                 </Box>
             </Box>
         </Box>
