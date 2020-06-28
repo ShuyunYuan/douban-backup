@@ -50,13 +50,13 @@ export default function Main() {
             <ElevateOnScroll>
                 <AppBar color='default' className={classes.appBar}>
                     <Toolbar>
-                        <Typography variant="h6" noWrap>
+                        <Typography component='h1' variant='h6'>
                             豆瓣备份工具
                         </Typography>
                     </Toolbar>
                 </AppBar>
             </ElevateOnScroll>
-            <Drawer variant="permanent" classes={{ root: classes.drawerRoot, paper: classes.drawerPaper }}>
+            <Drawer variant='permanent' classes={{ root: classes.drawerRoot, paper: classes.drawerPaper }}>
                 <Toolbar />
                 <List>
                     {drawerItems.map(({ icon, text }, index) => (

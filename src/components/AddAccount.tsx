@@ -15,7 +15,7 @@ function AddAccount(props: Props) {
         <Box maxWidth={480} mx='auto'>
             <Card variant='outlined'>
                 <Box px={3} py={4}>
-                    <Typography align='center' variant='h5'>
+                    <Typography align='center' component='h2' variant='h5'>
                         登录豆瓣账号
                     </Typography>
                 </Box>
@@ -30,7 +30,7 @@ function AddAccount(props: Props) {
                 <Box display='flex' px={3} py={2}>
                     {props.hasAccounts && (
                         <Box ml={-1}>
-                            <Button color="primary">
+                            <Button color='primary'>
                                 选择已有账号
                             </Button>
                         </Box>

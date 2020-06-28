@@ -30,7 +30,7 @@ function SelectAccount(props: Props) {
         <Box maxWidth={480} mx='auto'>
             <Card variant='outlined'>
                 <Box px={3} pt={4} pb={2}>
-                    <Typography align='center' variant='h5'>
+                    <Typography align='center' component='h2' variant='h5'>
                         选择豆瓣帐号
                     </Typography>
                 </Box>
