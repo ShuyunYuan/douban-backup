@@ -1,5 +1,5 @@
 import { CssBaseline } from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, fade } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
@@ -8,13 +8,14 @@ import { Provider } from 'react-redux';
 import store from '../state/Store';
 import Main from './Main';
 
+const primaryColor = green[600];
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: green[600],
+      main: primaryColor,
     },
     secondary: {
-      main: green[600],
+      main: primaryColor,
     },
     background: {
       default: '#ffffff',
@@ -34,6 +35,13 @@ const theme = createMuiTheme({
     MuiDrawer: {
       paperAnchorDockedLeft: {
         borderRight: 'none',
+        '& .MuiListItem-root.Mui-selected': {
+          backgroundColor: fade(primaryColor, 0.12),
+          color: primaryColor,
+        },
+        '& .MuiListItem-root.Mui-selected:hover': {
+          backgroundColor: fade(primaryColor, 0.12),
+        },
         '& .MuiListItem-button': {
           borderRadius: '0 24px 24px 0',
         },
@@ -42,6 +50,9 @@ const theme = createMuiTheme({
             paddingLeft: 24,
             paddingRight: 24,
           },
+        },
+        '& .MuiListItem-root.Mui-selected .MuiListItemIcon-root': {
+          color: primaryColor,
         },
       },
     },
