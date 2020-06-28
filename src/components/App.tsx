@@ -3,7 +3,9 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
+import { Provider } from 'react-redux';
 
+import store from '../state/Store';
 import Main from './Main';
 
 const theme = createMuiTheme({
@@ -48,10 +50,12 @@ const theme = createMuiTheme({
 
 export default function App() {
   return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline>
-          <Main />
-        </CssBaseline>
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline>
+            <Main />
+          </CssBaseline>
+        </ThemeProvider>
+      </Provider>
   );
 }

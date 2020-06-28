@@ -7,7 +7,7 @@ import React from 'react';
 
 import ElevateOnScroll from './ElevateOnScroll';
 import SelectAccount from './SelectAccount';
-import SignIn from './SignIn';
+import AddAccount from './AddAccount';
 
 const drawerItems = [
     {
@@ -72,7 +72,7 @@ export default function Main() {
                 <Box maxWidth={936} padding='0 48px'>
                     {/*<SelectContent />*/}
                     {/*<SelectAccount />*/}
-                    <SignIn />
+                    <AddAccount />
                 </Box>
             </Box>
         </Box>

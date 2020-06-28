@@ -1,71 +1,69 @@
-import { Box, Card, Divider, ListItemIcon, ListItemText, ListItem, List, Typography } from '@material-ui/core';
+import { Avatar, Box, Card, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AccountCircleOutlined, PersonAddOutlined } from '@material-ui/icons';
+import { PersonAddOutlined } from '@material-ui/icons';
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { Account } from '../state/Slices';
+import { RootState } from '../state/Store';
+
+interface StateProps {
+    accounts: Account[];
+}
+
+type Props = StateProps;
 
 const useStyles = makeStyles(theme => ({
-    cardContent: {
-        padding: theme.spacing(3),
-        '& > *:not(:first-child)': {
-            marginTop: theme.spacing(3),
-        },
+    listItemRoot: {
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3),
     },
-    title: {
-        fontWeight: theme.typography.fontWeightLight,
-    },
-    chooseAccountButton: {
-        marginLeft: theme.spacing(-1),
+    dividerMiddle: {
+        marginLeft: theme.spacing(3),
+        marginRight: theme.spacing(3),
     },
 }));
 
-const accounts = [
-    {
-        name: 'user1',
-        icon: AccountCircleOutlined,
-        description: '100',
-    },
-    {
-        name: 'user2',
-        icon: AccountCircleOutlined,
-        description: '100',
-    },
-    {
-        name: 'user3',
-        icon: AccountCircleOutlined,
-        description: '100',
-    },
-]
-
-export default function SelectAccount() {
+function SelectAccount(props: Props) {
     const classes = useStyles();
     return (
         <Box maxWidth={480} mx='auto'>
             <Card variant='outlined'>
-                <Box className={classes.cardContent}>
-                    <Typography align='center' variant='h4' className={classes.title}>
+                <Box px={3} pt={4} pb={2}>
+                    <Typography align='center' variant='h5'>
                         选择豆瓣帐号
                     </Typography>
-                    <List>
-                        {accounts.map(({ icon: ItemIcon, name, description }) => (
-                            <>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <ItemIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={name} secondary={description} />
-                                </ListItem>
-                                <Divider />
-                            </>
-                        ))}
-                        <ListItem>
-                            <ListItemIcon>
-                                <PersonAddOutlined />
-                            </ListItemIcon>
-                            <ListItemText primary='添加其他账号' />
-                        </ListItem>
-                    </List>
                 </Box>
+                <List>
+                    {props.accounts.map(account => (
+                        <>
+                            <ListItem button classes={{ root: classes.listItemRoot }}>
+                                <ListItemIcon>
+                                    <Avatar alt={account.name} src={account.avatarUrl} />
+                                </ListItemIcon>
+                                <ListItemText primary={account.name} secondary={account.username} />
+                            </ListItem>
+                            <Divider variant='middle' classes={{ middle: classes.dividerMiddle }} />
+                        </>
+                    ))}
+                    <ListItem button classes={{ root: classes.listItemRoot }}>
+                        <ListItemIcon>
+                            <Box ml={1} display='flex'>
+                                <PersonAddOutlined />
+                            </Box>
+                        </ListItemIcon>
+                        <ListItemText primary='添加其他账号' />
+                    </ListItem>
+                </List>
             </Card>
         </Box>
     );
 }
+
+function mapState(state: RootState): StateProps {
+    return {
+        accounts: state.accounts,
+    };
+}
+
+export default connect(mapState)(SelectAccount);
