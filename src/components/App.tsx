@@ -45,14 +45,24 @@ const theme = createMuiTheme({
         '& .MuiListItem-button': {
           borderRadius: '0 24px 24px 0',
         },
+        '& .MuiListItem-dense': {
+          paddingTop: 8,
+          paddingBottom: 8,
+        },
         '& .MuiListItem-gutters': {
           '@media (min-width: 600px)': {
             paddingLeft: 24,
             paddingRight: 24,
           },
         },
+        '& .MuiListItem-root .MuiListItemIcon-root': {
+          minWidth: 40,
+        },
         '& .MuiListItem-root.Mui-selected .MuiListItemIcon-root': {
           color: primaryColor,
+        },
+        '& .MuiListItem-root .MuiListItemText-dense .MuiTypography-body2': {
+          fontWeight: 500,
         },
       },
     },

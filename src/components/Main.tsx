@@ -60,7 +60,7 @@ export default function Main() {
                 <Toolbar />
                 <List>
                     {drawerItems.map(({ icon, text }, index) => (
-                        <ListItem key={text} button selected={index === 0}>
+                        <ListItem key={text} button dense selected={index === 0}>
                             <ListItemIcon>{icon}</ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
