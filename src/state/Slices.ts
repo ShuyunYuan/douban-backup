@@ -1,3 +1,5 @@
+import { connectRouter } from 'connected-react-router';
+import { History } from 'history';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
@@ -17,7 +19,7 @@ const testAccount = {
 
 const accountsSlice = createSlice({
   name: 'accounts',
-  initialState: [testAccount] as Account[],
+  initialState: [] as Account[],
   reducers: {
     addAccount: (state, action: PayloadAction<Account>) => [...state, action.payload],
     removeAccount: (state, action: PayloadAction<string>) => state.filter(it => it.username !== action.payload),
@@ -25,6 +27,9 @@ const accountsSlice = createSlice({
 });
 export const { addAccount, removeAccount } = accountsSlice.actions;
 
-export const rootReducer = combineReducers({
-  [accountsSlice.name]: accountsSlice.reducer,
-});
+export function createRootReducer(history: History) {
+  return combineReducers({
+    router: connectRouter(history),
+    [accountsSlice.name]: accountsSlice.reducer,
+  });
+}

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { PersonAddOutlined } from '@material-ui/icons';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { Account } from '../state/Slices';
 import { RootState } from '../state/Store';
@@ -26,6 +27,9 @@ const useStyles = makeStyles(theme => ({
 
 function SelectAccount(props: Props) {
     const classes = useStyles();
+    if (!props.accounts.length) {
+        return <Redirect to='/backup/add-account' />;
+    }
     return (
         <Box maxWidth={480} mx='auto'>
             <Card variant='outlined'>

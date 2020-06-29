@@ -4,8 +4,9 @@ import { green } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 
-import store from '../state/Store';
+import store, { history } from '../state/Store';
 import Main from './Main';
 
 const primaryColor = green[600];
@@ -72,11 +73,13 @@ const theme = createMuiTheme({
 export default function App() {
   return (
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline>
-            <Main />
-          </CssBaseline>
-        </ThemeProvider>
+        <ConnectedRouter history={history}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline>
+              <Main />
+            </CssBaseline>
+          </ThemeProvider>
+        </ConnectedRouter>
       </Provider>
   );
 }

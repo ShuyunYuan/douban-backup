@@ -1,78 +1,22 @@
-import {
-    AppBar, Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { CloudUploadOutlined, GetAppOutlined, PlaylistAddCheckOutlined, SettingsOutlined } from '@material-ui/icons';
+import { Box, Toolbar } from '@material-ui/core';
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import ElevateOnScroll from './ElevateOnScroll';
-import SelectAccount from './SelectAccount';
-import AddAccount from './AddAccount';
-
-const drawerItems = [
-    {
-        icon: <GetAppOutlined />,
-        text: '开始备份',
-    },
-    {
-        icon: <PlaylistAddCheckOutlined />,
-        text: '任务列表',
-    },
-    {
-        icon: <CloudUploadOutlined />,
-        text: '开始恢复',
-    },
-    {
-        icon: <SettingsOutlined />,
-        text: '设置',
-    },
-];
-
-const drawerWidth = 280;
-
-const useStyles = makeStyles((theme) => ({
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-    },
-    drawerRoot: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-}));
+import Backup from './Backup';
+import MainAppBar from './MainAppBar';
+import MainDrawer from './MainDrawer';
 
 export default function Main() {
-    const classes = useStyles();
     return (
         <Box flex={1} display='flex'>
-            <ElevateOnScroll>
-                <AppBar color='default' className={classes.appBar}>
-                    <Toolbar>
-                        <Typography component='h1' variant='h6'>
-                            豆瓣备份工具
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-            </ElevateOnScroll>
-            <Drawer variant='permanent' classes={{ root: classes.drawerRoot, paper: classes.drawerPaper }}>
-                <Toolbar />
-                <List>
-                    {drawerItems.map(({ icon, text }, index) => (
-                        <ListItem key={text} button dense selected={index === 0}>
-                            <ListItemIcon>{icon}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-            </Drawer>
+            <MainAppBar />
+            <MainDrawer />
             <Box flex={1} display='flex' flexDirection='column'>
                 <Toolbar />
                 <Box maxWidth={936} padding='0 48px'>
-                    {/*<SelectContent />*/}
-                    {/*<SelectAccount />*/}
-                    <AddAccount />
+                    <Switch>
+                        <Route path='/backup' component={Backup} />
+                    </Switch>
                 </Box>
             </Box>
         </Box>
