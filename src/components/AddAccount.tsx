@@ -1,5 +1,5 @@
 import { Box, Button, Card, CircularProgress, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { RootState } from '../state/Store';
@@ -18,10 +18,37 @@ type Props = StateProps & DispatchProps;
 
 function AddAccount(props: Props) {
   const [username, setUsername] = useState('');
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value);
+  const [usernameError, setUsernameError] = useState('');
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+    setUsernameError('');
+  };
   const [password, setPassword] = useState('');
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value);
-  const handleSignInClick = () => props.onSignIn({ username, password });
+  const [passwordError, setPasswordError] = useState('');
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+    setPasswordError('');
+  };
+  const handleSignInClick = () => {
+    let focusRef: React.RefObject<HTMLInputElement> | null = null;
+    if (!username) {
+      setUsernameError('请输入用户名')
+      focusRef = usernameRef;
+    }
+    if (!password) {
+      setPasswordError('请输入密码')
+      if (!focusRef) {
+        focusRef = passwordRef;
+      }
+    }
+    if (!username || !password) {
+      focusRef!!.current!!.focus();
+      return;
+    }
+    props.onSignIn({ username, password });
+  };
   return (
       <Box maxWidth={480} mx='auto'>
         <Card variant='outlined'>
@@ -34,13 +61,14 @@ function AddAccount(props: Props) {
             <Box visibility={props.isSigningIn ? 'hidden' : 'visible'} pt={4}>
               <Box px={3}>
                 <TextField
-                    id='username' fullWidth label='用户名' value={username} variant='outlined'
-                    onChange={handleUsernameChange} />
+                    id='username' error={!!usernameError} fullWidth helperText={usernameError} inputRef={usernameRef}
+                    label='用户名' value={username} variant='outlined' onChange={handleUsernameChange} />
               </Box>
               <Box px={3} pt={2}>
                 <TextField
-                    id='password' autoComplete='current-password' fullWidth label='密码' value={password}
-                    type='password' variant='outlined' onChange={handlePasswordChange} />
+                    id='password' autoComplete='current-password' error={!!passwordError} fullWidth
+                    helperText={passwordError} inputRef={passwordRef} label='密码' value={password} type='password'
+                    variant='outlined' onChange={handlePasswordChange} />
               </Box>
               <Box display='flex' px={3} py={2}>
                 {props.hasAccounts && (
