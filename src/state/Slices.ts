@@ -8,15 +8,19 @@ import { User } from '../api';
 export interface Account {
   username: string;
   password: string;
-  avatarUrl: string;
-  name: string;
+  user: User;
 }
 
 const testAccount = {
   username: 'yuanshuyun1012@gmail.com',
   password: '',
-  avatarUrl: 'https://img9.doubanio.com/icon/ul50760198-4.jpg',
-  name: '朱玟'
+  // @ts-ignore
+  user: {
+    id: 50760198,
+    large_avatar: 'https://img9.doubanio.com/icon/ul50760198-4.jpg',
+    name: '朱玟',
+    uid: 'lunadreamson',
+  } as User,
 };
 
 const accountsSlice = createSlice({
@@ -37,41 +41,42 @@ export const signIn = createAsyncThunk('signIn', async (args: SignInArgs) => {
   return new Promise<User>(resolve => {
     console.log(args.username);
     window.setTimeout(() => {
-      // @ts-ignore
-      resolve({
-        id: 50760198,
-        large_avatar: 'https://img9.doubanio.com/icon/ul50760198-4.jpg',
-        name: '朱玟',
-        uid: 'lunadreamson',
-      });
+      resolve(testAccount.user);
     }, 3000);
   });
 });
 const signInSlice = createSlice({
   name: 'signIn',
   initialState: {
-    pending: false,
+    isPending: false,
     error: '',
     user: null as User | null,
   },
-  reducers: {},
+  reducers: {
+    resetSignIn: () => ({
+      isPending: false,
+      error: '',
+      user: null,
+    }),
+  },
   extraReducers: builder => builder
       .addCase(signIn.pending, () => ({
-        pending: true,
+        isPending: true,
         error: '',
         user: null,
       }))
       .addCase(signIn.fulfilled, (state, action) => ({
-        pending: false,
+        isPending: false,
         error: '',
         user: action.payload,
       }))
       .addCase(signIn.rejected, (state, action) => ({
-        pending: false,
+        isPending: false,
         error: action.error.message!!,
         user: null,
       })),
 });
+export const { resetSignIn } = signInSlice.actions;
 
 export function createRootReducer(history: History) {
   return combineReducers({

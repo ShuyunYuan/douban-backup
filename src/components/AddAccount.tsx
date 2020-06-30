@@ -1,17 +1,23 @@
 import { Box, Button, Card, CircularProgress, TextField, Typography } from '@material-ui/core';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { NavLink, Redirect } from 'react-router-dom';
 
+import { User } from '../api';
 import { RootState } from '../state/Store';
-import { signIn, SignInArgs } from '../state/Slices';
+import { Account, addAccount, resetSignIn, signIn, SignInArgs } from '../state/Slices';
 
 interface StateProps {
   hasAccounts: boolean;
   isSigningIn: boolean;
+  signInError: string;
+  signInUser: User | null;
 }
 
 interface DispatchProps {
   onSignIn: (args: SignInArgs) => void;
+  onResetSignIn: () => void;
+  onAddAccount: (account: Account) => void;
 }
 
 type Props = StateProps & DispatchProps;
@@ -26,6 +32,7 @@ function AddAccount(props: Props) {
   };
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const signInOrPasswordError = props.signInError || passwordError;
   const passwordRef = useRef<HTMLInputElement>(null);
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -49,6 +56,16 @@ function AddAccount(props: Props) {
     }
     props.onSignIn({ username, password });
   };
+  useEffect(() => {
+    if (props.signInUser) {
+      props.onResetSignIn();
+      props.onAddAccount({ username, password, user: props.signInUser });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.signInUser]);
+  if (props.signInUser) {
+    return <Redirect to='select-content' />
+  }
   return (
       <Box maxWidth={480} mx='auto'>
         <Card variant='outlined'>
@@ -61,19 +78,20 @@ function AddAccount(props: Props) {
             <Box visibility={props.isSigningIn ? 'hidden' : 'visible'} pt={4}>
               <Box px={3}>
                 <TextField
-                    id='username' error={!!usernameError} fullWidth helperText={usernameError} inputRef={usernameRef}
-                    label='用户名' value={username} variant='outlined' onChange={handleUsernameChange} />
+                    id='username' autoFocus error={!!usernameError} fullWidth helperText={usernameError}
+                    inputRef={usernameRef} label='用户名' value={username} variant='outlined'
+                    onChange={handleUsernameChange} />
               </Box>
               <Box px={3} pt={2}>
                 <TextField
-                    id='password' autoComplete='current-password' error={!!passwordError} fullWidth
-                    helperText={passwordError} inputRef={passwordRef} label='密码' value={password} type='password'
-                    variant='outlined' onChange={handlePasswordChange} />
+                    id='password' autoComplete='current-password' error={!!signInOrPasswordError} fullWidth
+                    helperText={signInOrPasswordError} inputRef={passwordRef} label='密码' value={password}
+                    type='password' variant='outlined' onChange={handlePasswordChange} />
               </Box>
               <Box display='flex' px={3} py={2}>
                 {props.hasAccounts && (
                     <Box ml={-1}>
-                      <Button color='primary'>
+                      <Button color='primary' component={NavLink} to='select-account'>
                         选择已有账号
                       </Button>
                     </Box>
@@ -99,12 +117,16 @@ function AddAccount(props: Props) {
 function mapState(state: RootState): StateProps {
   return {
     hasAccounts: !!state.accounts.length,
-    isSigningIn: state.signIn.pending,
+    isSigningIn: state.signIn.isPending,
+    signInError: state.signIn.error,
+    signInUser: state.signIn.user,
   };
 }
 
 const mapDispatch: DispatchProps = {
   onSignIn: signIn,
+  onResetSignIn: resetSignIn,
+  onAddAccount: addAccount,
 }
 
 export default connect(mapState, mapDispatch)(AddAccount);

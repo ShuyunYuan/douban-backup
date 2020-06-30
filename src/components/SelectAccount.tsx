@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { PersonAddOutlined } from '@material-ui/icons';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 
 import { Account } from '../state/Slices';
 import { RootState } from '../state/Store';
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 function SelectAccount(props: Props) {
   const classes = useStyles();
   if (!props.accounts.length) {
-    return <Redirect to='/backup/add-account' />;
+    return <Redirect to='add-account' />;
   }
   return (
       <Box maxWidth={480} mx='auto'>
@@ -40,17 +40,17 @@ function SelectAccount(props: Props) {
           </Box>
           <List>
             {props.accounts.map(account => (
-                <>
+                <Box key={account.username}>
                   <ListItem button classes={{ root: classes.listItemRoot }}>
                     <ListItemIcon>
-                      <Avatar alt={account.name} src={account.avatarUrl} />
+                      <Avatar alt={account.user.name} src={account.user.large_avatar} />
                     </ListItemIcon>
-                    <ListItemText primary={account.name} secondary={account.username} />
+                    <ListItemText primary={account.user.name} secondary={account.username} />
                   </ListItem>
                   <Divider variant='middle' classes={{ middle: classes.dividerMiddle }} />
-                </>
+                </Box>
             ))}
-            <ListItem button classes={{ root: classes.listItemRoot }}>
+            <ListItem button component={NavLink} classes={{ root: classes.listItemRoot }} to='add-account'>
               <ListItemIcon>
                 <Box ml={1} display='flex'>
                   <PersonAddOutlined />
