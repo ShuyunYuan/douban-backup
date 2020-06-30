@@ -38,7 +38,8 @@ function AddAccount(props: Props) {
     setPassword(event.target.value);
     setPasswordError('');
   };
-  const handleSignInClick = () => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     let focusRef: React.RefObject<HTMLInputElement> | null = null;
     if (!username) {
       setUsernameError('请输入用户名')
@@ -75,7 +76,9 @@ function AddAccount(props: Props) {
             </Typography>
           </Box>
           <Box position='relative'>
-            <Box visibility={props.isSigningIn ? 'hidden' : 'visible'} pt={4}>
+            <Box
+                component='form' visibility={props.isSigningIn ? 'hidden' : 'visible'} pt={4}
+                onSubmit={handleFormSubmit}>
               <Box px={3}>
                 <TextField
                     id='username' autoFocus error={!!usernameError} fullWidth helperText={usernameError}
@@ -97,7 +100,7 @@ function AddAccount(props: Props) {
                     </Box>
                 )}
                 <Box ml='auto'>
-                  <Button color='primary' disableElevation variant='contained' onClick={handleSignInClick}>
+                  <Button color='primary' disableElevation type='submit' variant='contained'>
                     登录
                   </Button>
                 </Box>

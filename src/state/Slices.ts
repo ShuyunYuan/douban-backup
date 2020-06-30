@@ -42,7 +42,7 @@ export const signIn = createAsyncThunk('signIn', async (args: SignInArgs) => {
     console.log(args.username);
     window.setTimeout(() => {
       resolve(testAccount.user);
-    }, 3000);
+    }, 1000);
   });
 });
 const signInSlice = createSlice({
