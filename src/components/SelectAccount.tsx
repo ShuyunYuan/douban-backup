@@ -66,7 +66,7 @@ function SelectAccount(props: Props) {
 
 function mapState(state: RootState): StateProps {
   return {
-    accounts: state.accounts,
+    accounts: Array.from(state.accounts.values()),
   };
 }
 

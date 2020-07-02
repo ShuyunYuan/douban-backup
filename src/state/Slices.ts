@@ -25,10 +25,18 @@ const testAccount = {
 
 const accountsSlice = createSlice({
   name: 'accounts',
-  initialState: [] as Account[],
+  initialState: new Map<string, Account>(),
   reducers: {
-    addAccount: (state, action: PayloadAction<Account>) => [...state, action.payload],
-    removeAccount: (state, action: PayloadAction<string>) => state.filter(it => it.username !== action.payload),
+    addAccount: (state, action: PayloadAction<Account>) => {
+      const newState = new Map(state);
+      newState.set(action.payload.username, action.payload);
+      return newState;
+    },
+    removeAccount: (state, action: PayloadAction<string>) => {
+      const newState = new Map(state);
+      newState.delete(action.payload);
+      return newState;
+    },
   },
 });
 export const { addAccount, removeAccount } = accountsSlice.actions;
