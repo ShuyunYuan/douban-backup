@@ -2,7 +2,7 @@ import { Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } from '@ma
 import { makeStyles } from '@material-ui/core/styles';
 import { CloudUploadOutlined, GetAppOutlined, PlaylistAddCheckOutlined, SettingsOutlined } from '@material-ui/icons';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import DrawerLink from './DrawerLink';
 
 const drawerItems = [
   {
@@ -46,7 +46,7 @@ export default function MainDrawer() {
         <Toolbar />
         <List>
           {drawerItems.map(item => (
-              <ListItem key={item.to} button component={NavLink} dense activeClassName='Mui-selected' to={item.to}>
+              <ListItem key={item.to} button component={DrawerLink} dense to={item.to}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItem>
