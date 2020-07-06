@@ -1,12 +1,18 @@
 import {
-  AccountCircleOutlined, AppsOutlined, BookOutlined, EventNoteOutlined, LocalPlayOutlined, MovieOutlined,
-  MusicNoteOutlined, SportsEsportsOutlined, SvgIconComponent,
+  AccountCircleOutlined, AppsOutlined, BookOutlined, DescriptionOutlined, EventNoteOutlined, ListAltOutlined,
+  LocalPlayOutlined, MovieOutlined, MusicNoteOutlined, PeopleOutlined, PhotoAlbumOutlined, RateReviewOutlined,
+  SportsEsportsOutlined, SvgIconComponent,
 } from '@material-ui/icons';
 
 import { ItemList, User, UserItemStatus, UserItemType } from '../api';
 
 export enum ContentId {
-  PROFILE= 'profile',
+  PROFILE = 'profile',
+  FOLLOWSHIP = 'followship',
+  DIARY = 'diary',
+  REVIEW = 'review',
+  PHOTO_ALBUM = 'photo_album',
+  DOULIST = 'doulist',
   BOOK = 'book',
   MOVIE = 'movie',
   MUSIC = 'music',
@@ -38,6 +44,36 @@ export const contents: Content[] = [
     icon: AccountCircleOutlined,
     title: '个人资料',
     description: args => args.user.name,
+  },
+  {
+    id: ContentId.FOLLOWSHIP,
+    icon: PeopleOutlined,
+    title: '友邻',
+    description: args => `关注${args.user.following_count}人，被${args.user.followers_count}人关注`,
+  },
+  {
+    id: ContentId.DIARY,
+    icon: DescriptionOutlined,
+    title: '日记',
+    description: args => `${args.user.notes_count}篇日记`,
+  },
+  {
+    id: ContentId.REVIEW,
+    icon: RateReviewOutlined,
+    title: '评论',
+    description: args => `${args.itemList.itemlist.find(it => it.type === UserItemType.REVIEW)?.total}条评论`,
+  },
+  {
+    id: ContentId.PHOTO_ALBUM,
+    icon: PhotoAlbumOutlined,
+    title: '相册',
+    description: args => `${args.user.photo_albums_count}个相册`,
+  },
+  {
+    id: ContentId.DOULIST,
+    icon: ListAltOutlined,
+    title: '豆列',
+    description: args => `${args.user.owned_doulist_count}个豆列`,
   },
   {
     id: ContentId.BOOK,
