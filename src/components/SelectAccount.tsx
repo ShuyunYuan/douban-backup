@@ -43,7 +43,7 @@ function SelectAccount(props: Props) {
   return (
       <Box maxWidth={480}>
         <Card variant='outlined'>
-          <Box px={3} pt={4} pb={2}>
+          <Box paddingX={3} paddingTop={4} paddingBottom={2}>
             <Typography align='center' component='h2' variant='h5'>
               选择豆瓣帐号
             </Typography>
@@ -64,7 +64,7 @@ function SelectAccount(props: Props) {
             ))}
             <ListItem button component={NavLink} classes={{ root: classes.listItemRoot }} to='add-account'>
               <ListItemIcon>
-                <Box ml={1} display='flex'>
+                <Box marginLeft={1} display='flex'>
                   <PersonAddOutlined />
                 </Box>
               </ListItemIcon>

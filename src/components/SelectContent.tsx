@@ -36,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
 
 function SelectContent(props: Props) {
   const [checked, setChecked] = React.useState(() => Object.fromEntries<boolean>(contents.map(it => [it.id, true])));
-  const isNoneChecked = Object.values(checked).every(checked => !checked);
   const isAllChecked = Object.values(checked).every(checked => checked);
+  const isNoneChecked = Object.values(checked).every(checked => !checked);
   const classes = useStyles();
   const handleCheckedChange = (event: React.ChangeEvent<HTMLInputElement>) =>
       setChecked({ ...checked, [event.target.name]: event.target.checked });
@@ -48,12 +48,12 @@ function SelectContent(props: Props) {
   return (
       <Box maxWidth={840}>
         <Card variant='outlined'>
-          <Box px={3} pt={4} pb={3}>
+          <Box paddingX={3} paddingTop={4} paddingBottom={3}>
             <Typography align='center' component='h2' variant='h5'>
               选择备份内容
             </Typography>
           </Box>
-          <Box display='flex' justifyContent='flex-end' px={2}>
+          <Box display='flex' justifyContent='flex-end' paddingX={2}>
             <Button color='primary' onClick={handleSelectAll}>
               {isAllChecked ? '取消全选' : '全选'}
             </Button>
@@ -82,7 +82,7 @@ function SelectContent(props: Props) {
             })}
           </List>
           <Divider />
-          <Box display='flex' px={3} py={2} justifyContent='flex-end'>
+          <Box display='flex' paddingX={3} paddingY={2} justifyContent='flex-end'>
             <Button color='primary' disabled={isNoneChecked} variant='contained'>
               开始备份
             </Button>

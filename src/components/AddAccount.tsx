@@ -72,36 +72,36 @@ function AddAccount(props: Props) {
   return (
       <Box maxWidth={480}>
         <Card variant='outlined'>
-          <Box px={3} pt={4}>
+          <Box paddingX={3} paddingTop={4}>
             <Typography align='center' component='h2' variant='h5'>
               登录豆瓣账号
             </Typography>
           </Box>
           <Box position='relative'>
             <Box
-                component='form' visibility={props.isSigningIn ? 'hidden' : 'visible'} pt={4}
+                component='form' visibility={props.isSigningIn ? 'hidden' : 'visible'} paddingTop={4}
                 onSubmit={handleFormSubmit}>
-              <Box px={3}>
+              <Box paddingX={3}>
                 <TextField
                     id='username' autoFocus error={!!usernameError} fullWidth helperText={usernameError}
                     inputRef={usernameRef} label='用户名' value={username} variant='outlined'
                     onChange={handleUsernameChange} />
               </Box>
-              <Box px={3} pt={2}>
+              <Box paddingX={3} paddingTop={2}>
                 <TextField
                     id='password' autoComplete='current-password' error={!!signInOrPasswordError} fullWidth
                     helperText={signInOrPasswordError} inputRef={passwordRef} label='密码' value={password}
                     type='password' variant='outlined' onChange={handlePasswordChange} />
               </Box>
-              <Box display='flex' px={3} py={2}>
+              <Box display='flex' paddingX={3} paddingY={2}>
                 {props.hasAccounts && (
-                    <Box ml={-1}>
+                    <Box marginLeft={-1}>
                       <Button color='primary' component={NavLink} to='select-account'>
                         选择已有账号
                       </Button>
                     </Box>
                 )}
-                <Box ml='auto'>
+                <Box marginLeft='auto'>
                   <Button color='primary' disableElevation type='submit' variant='contained'>
                     登录
                   </Button>
