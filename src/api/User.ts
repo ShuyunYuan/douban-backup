@@ -3,7 +3,7 @@ import ProfileImage from './ProfileImage';
 import UserAbstract from './UserAbstract';
 import UserMedal from './UserMedal';
 
-export interface User extends UserAbstract {
+export default interface User extends UserAbstract {
   alias: string;
   ark_published_count: number;
   badge_count: number;

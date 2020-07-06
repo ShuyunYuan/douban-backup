@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { RootState } from '../state/Store';
 import AddAccount from './AddAccount';
 import SelectAccount from './SelectAccount';
+import SelectContent from './SelectContent';
 
 interface StateProps {
   hasAccounts: boolean;
@@ -17,6 +18,7 @@ function Backup(props: Props) {
       <Switch>
         <Route path='/backup/select-account' component={SelectAccount} />
         <Route path='/backup/add-account' component={AddAccount} />
+        <Route path='/backup/select-content' component={SelectContent} />
         <Redirect to='/backup/select-account' />
       </Switch>
   );

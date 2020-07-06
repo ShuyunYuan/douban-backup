@@ -1,7 +1,12 @@
+import TypeItemList from './ItemList';
+import TypeUser from './User';
 export * from './Image';
+export type ItemList = TypeItemList;
+export * from './ItemList';
 export * from './Location';
 export * from './ProfileImage';
 export * from './Session';
+export type User = TypeUser;
 export * from './User';
 export * from './UserAbstract';
 export * from './UserMedal';

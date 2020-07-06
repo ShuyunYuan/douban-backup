@@ -5,13 +5,13 @@ type Props = React.PropsWithoutRef<NavLinkProps> & React.RefAttributes<HTMLAncho
 
 const activeClassName = 'Mui-selected';
 
-function DrawerLink(props: Props) {
+function DrawerLink(props: Props, ref: React.Ref<HTMLAnchorElement>) {
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (event.currentTarget.classList.contains(activeClassName)) {
       event.preventDefault();
     }
   };
-  return <NavLink {...props} activeClassName={activeClassName} replace onClick={handleClick} />;
+  return <NavLink {...props} ref={ref} activeClassName={activeClassName} replace onClick={handleClick} />;
 }
 
-export default React.memo(DrawerLink);
+export default React.memo(React.forwardRef(DrawerLink));

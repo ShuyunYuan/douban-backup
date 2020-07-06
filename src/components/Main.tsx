@@ -13,10 +13,12 @@ export default function Main() {
         <MainDrawer />
         <Box flex={1} display='flex' flexDirection='column'>
           <Toolbar />
-          <Box maxWidth={936} padding='0 48px'>
-            <Switch>
-              <Route path='/backup' component={Backup} />
-            </Switch>
+          <Box flex={1} display='flex' flexDirection='row' justifyContent='center'>
+            <Box flex={1} maxWidth={936}>
+              <Switch>
+                <Route path='/backup' component={Backup} />
+              </Switch>
+            </Box>
           </Box>
         </Box>
       </Box>

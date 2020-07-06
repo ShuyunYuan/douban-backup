@@ -5,7 +5,7 @@ import { NavLink, Redirect } from 'react-router-dom';
 
 import { User } from '../api';
 import { RootState } from '../state/Store';
-import { Account, addAccount, resetSignIn, signIn, SignInArgs } from '../state/Slices';
+import { Account, addAccount, resetSignIn, setBackupUsername, signIn, SignInArgs } from '../state/Slices';
 
 interface StateProps {
   hasAccounts: boolean;
@@ -18,6 +18,7 @@ interface DispatchProps {
   onSignIn: (args: SignInArgs) => void;
   onResetSignIn: () => void;
   onAddAccount: (account: Account) => void;
+  onSetBackupUsername: (username: string) => void;
 }
 
 type Props = StateProps & DispatchProps;
@@ -61,6 +62,7 @@ function AddAccount(props: Props) {
     if (props.signInUser) {
       props.onResetSignIn();
       props.onAddAccount({ username, password, user: props.signInUser });
+      props.onSetBackupUsername(username);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.signInUser]);
@@ -68,7 +70,7 @@ function AddAccount(props: Props) {
     return <Redirect to='select-content' />
   }
   return (
-      <Box maxWidth={480} mx='auto'>
+      <Box maxWidth={480}>
         <Card variant='outlined'>
           <Box px={3} pt={4}>
             <Typography align='center' component='h2' variant='h5'>
@@ -119,7 +121,7 @@ function AddAccount(props: Props) {
 
 function mapState(state: RootState): StateProps {
   return {
-    hasAccounts: !!state.accounts.length,
+    hasAccounts: !!Object.keys(state.accounts).length,
     isSigningIn: state.signIn.isPending,
     signInError: state.signIn.error,
     signInUser: state.signIn.user,
@@ -130,6 +132,7 @@ const mapDispatch: DispatchProps = {
   onSignIn: signIn,
   onResetSignIn: resetSignIn,
   onAddAccount: addAccount,
+  onSetBackupUsername: setBackupUsername,
 }
 
 export default connect(mapState, mapDispatch)(AddAccount);

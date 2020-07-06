@@ -1,9 +1,10 @@
 import { connectRouter } from 'connected-react-router';
+import omit from 'lodash.omit';
 import { History } from 'history';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
-import { User } from '../api';
+import { ItemList, User } from '../api';
 
 export interface Account {
   username: string;
@@ -25,18 +26,10 @@ const testAccount = {
 
 const accountsSlice = createSlice({
   name: 'accounts',
-  initialState: new Map<string, Account>(),
+  initialState: { [testAccount.username]: testAccount } as { [key: string]: Account },
   reducers: {
-    addAccount: (state, action: PayloadAction<Account>) => {
-      const newState = new Map(state);
-      newState.set(action.payload.username, action.payload);
-      return newState;
-    },
-    removeAccount: (state, action: PayloadAction<string>) => {
-      const newState = new Map(state);
-      newState.delete(action.payload);
-      return newState;
-    },
+    addAccount: (state, action: PayloadAction<Account>) => ({ ...state, [action.payload.username]: action.payload }),
+    removeAccount: (state, action: PayloadAction<string>) => omit(state, [action.payload]),
   },
 });
 export const { addAccount, removeAccount } = accountsSlice.actions;
@@ -86,10 +79,84 @@ const signInSlice = createSlice({
 });
 export const { resetSignIn } = signInSlice.actions;
 
+const backupUsernameSlice = createSlice({
+  name: 'backupUsername',
+  initialState: '',
+  reducers: {
+    setBackupUsername: (state, action: PayloadAction<string>) => action.payload,
+    resetBackupUsername: () => '',
+  }
+})
+export const { setBackupUsername, resetBackupUsername } = backupUsernameSlice.actions;
+
+const userItemListSlice = createSlice({
+  name: 'userItemList',
+  initialState: {} as { [key: string]: ItemList },
+  reducers: {
+    addUserItemList: (state, action: PayloadAction<[string, ItemList]>) =>
+        ({ ...state, [action.payload[0]]: action.payload[1] }),
+    removeUserItemList: (state, action: PayloadAction<string>) => omit(state, [action.payload]),
+  },
+});
+export const { addUserItemList, removeUserItemList } = userItemListSlice.actions;
+
+const testItemList: ItemList = {
+  itemlist: []
+};
+
+export const fetchUserItemList = createAsyncThunk('fetchUserItemList', async (userId: string) => {
+  return new Promise<[string, ItemList]>(resolve => {
+    console.log(userId);
+    window.setTimeout(() => {
+      resolve([userId, testItemList]);
+    }, 1000);
+  });
+});
+const fetchUserItemListSlice = createSlice({
+  name: 'fetchUserItemList',
+  initialState: {
+    isPending: false,
+    error: '',
+    userId: null as string | null,
+    itemList: null as ItemList | null,
+  },
+  reducers: {
+    resetFetchUserItemList: () => ({
+      isPending: false,
+      error: '',
+      userId: null,
+      itemList: null,
+    }),
+  },
+  extraReducers: builder => builder
+      .addCase(fetchUserItemList.pending, () => ({
+        isPending: true,
+        error: '',
+        userId: null,
+        itemList: null,
+      }))
+      .addCase(fetchUserItemList.fulfilled, (state, action) => ({
+        isPending: false,
+        error: '',
+        userId: action.payload[0],
+        itemList: action.payload[1],
+      }))
+      .addCase(fetchUserItemList.rejected, (state, action) => ({
+        isPending: false,
+        error: action.error.message!!,
+        userId: null,
+        itemList: null,
+      })),
+});
+export const { resetFetchUserItemList } = fetchUserItemListSlice.actions;
+
 export function createRootReducer(history: History) {
   return combineReducers({
     router: connectRouter(history),
     [accountsSlice.name]: accountsSlice.reducer,
     [signInSlice.name]: signInSlice.reducer,
+    [backupUsernameSlice.name]: backupUsernameSlice.reducer,
+    [userItemListSlice.name]: userItemListSlice.reducer,
+    [fetchUserItemListSlice.name]: fetchUserItemListSlice.reducer,
   });
 }
