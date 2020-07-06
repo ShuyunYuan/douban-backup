@@ -14,8 +14,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  onSetBackupUsername: (username: string) => void;
-  onReplace: (location: string) => void;
+  setBackupUsername: (username: string) => void;
+  replace: (location: string) => void;
 }
 
 type Props = StateProps & DispatchProps;
@@ -34,8 +34,8 @@ const useStyles = makeStyles(theme => ({
 function SelectAccount(props: Props) {
   const classes = useStyles();
   const handleAccountClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    props.onSetBackupUsername(event.currentTarget.dataset.username!!);
-    props.onReplace('select-content');
+    props.setBackupUsername(event.currentTarget.dataset.username!!);
+    props.replace('select-content');
   };
   if (!props.accounts.length) {
     return <Redirect to='add-account' />;
@@ -83,8 +83,8 @@ function mapState(state: RootState): StateProps {
 }
 
 const mapDispatch: DispatchProps = {
-  onSetBackupUsername: setBackupUsername,
-  onReplace: replace,
+  setBackupUsername,
+  replace,
 };
 
 export default connect(mapState, mapDispatch)(SelectAccount);

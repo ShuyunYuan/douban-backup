@@ -9,4 +9,5 @@ export * from './Session';
 export type User = TypeUser;
 export * from './User';
 export * from './UserAbstract';
+export * from './UserItem';
 export * from './UserMedal';

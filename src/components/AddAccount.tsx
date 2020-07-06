@@ -15,10 +15,10 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  onSignIn: (args: SignInArgs) => void;
-  onResetSignIn: () => void;
-  onAddAccount: (account: Account) => void;
-  onSetBackupUsername: (username: string) => void;
+  signIn: (args: SignInArgs) => void;
+  resetSignIn: () => void;
+  addAccount: (account: Account) => void;
+  setBackupUsername: (username: string) => void;
 }
 
 type Props = StateProps & DispatchProps;
@@ -56,13 +56,13 @@ function AddAccount(props: Props) {
       focusRef!!.current!!.focus();
       return;
     }
-    props.onSignIn({ username, password });
+    props.signIn({ username, password });
   };
   useEffect(() => {
     if (props.signInUser) {
-      props.onResetSignIn();
-      props.onAddAccount({ username, password, user: props.signInUser });
-      props.onSetBackupUsername(username);
+      props.resetSignIn();
+      props.addAccount({ username, password, user: props.signInUser });
+      props.setBackupUsername(username);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.signInUser]);
@@ -102,7 +102,7 @@ function AddAccount(props: Props) {
                     </Box>
                 )}
                 <Box marginLeft='auto'>
-                  <Button color='primary' disableElevation type='submit' variant='contained'>
+                  <Button color='primary' type='submit' variant='contained'>
                     登录
                   </Button>
                 </Box>
@@ -129,10 +129,10 @@ function mapState(state: RootState): StateProps {
 }
 
 const mapDispatch: DispatchProps = {
-  onSignIn: signIn,
-  onResetSignIn: resetSignIn,
-  onAddAccount: addAccount,
-  onSetBackupUsername: setBackupUsername,
+  signIn,
+  resetSignIn,
+  addAccount,
+  setBackupUsername,
 }
 
 export default connect(mapState, mapDispatch)(AddAccount);

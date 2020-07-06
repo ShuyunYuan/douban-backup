@@ -89,26 +89,67 @@ const backupUsernameSlice = createSlice({
 })
 export const { setBackupUsername, resetBackupUsername } = backupUsernameSlice.actions;
 
-const userItemListSlice = createSlice({
-  name: 'userItemList',
+export interface AddUserItemListArgs {
+  userId: string;
+  itemList: ItemList;
+}
+const userItemListsSlice = createSlice({
+  name: 'userItemLists',
   initialState: {} as { [key: string]: ItemList },
   reducers: {
-    addUserItemList: (state, action: PayloadAction<[string, ItemList]>) =>
-        ({ ...state, [action.payload[0]]: action.payload[1] }),
+    addUserItemList: (state, action: PayloadAction<AddUserItemListArgs>) =>
+        ({ ...state, [action.payload.userId]: action.payload.itemList }),
     removeUserItemList: (state, action: PayloadAction<string>) => omit(state, [action.payload]),
   },
 });
-export const { addUserItemList, removeUserItemList } = userItemListSlice.actions;
+export const { addUserItemList, removeUserItemList } = userItemListsSlice.actions;
 
 const testItemList: ItemList = {
-  itemlist: []
+  itemlist: [
+// @ts-ignore
+    { status: '', reviews: [], total: 6, type: 'review' },
+// @ts-ignore
+    { status: 'wish', total: 239, type: 'movie', subjects: [] },
+// @ts-ignore
+    { status: 'doing', total: 5, type: 'movie', subjects: [] },
+// @ts-ignore
+    { status: 'collect', total: 274, type: 'movie', subjects: [] },
+// @ts-ignore
+    { status: 'wish', total: 1, type: 'app', subjects: [] },
+// @ts-ignore
+    { status: 'collect', total: 3, type: 'app', subjects: [] },
+// @ts-ignore
+    { status: 'wish', total: 1, type: 'drama', subjects: [] },
+// @ts-ignore
+    { status: 'collect', total: 1, type: 'drama', subjects: [] },
+// @ts-ignore
+    { status: 'wish', total: 32, type: 'game', subjects: [] },
+// @ts-ignore
+    { status: 'collect', total: 19, type: 'game', subjects: [] },
+// @ts-ignore
+    { status: 'wish', total: 175, type: 'book', subjects: [] },
+// @ts-ignore
+    { status: 'doing', total: 23, type: 'book', subjects: [] },
+// @ts-ignore
+    { status: 'collect', total: 191, type: 'book', subjects: [] },
+// @ts-ignore
+    { status: 'wish', total: 6, type: 'music', subjects: [] },
+// @ts-ignore
+    { status: 'doing', total: 6, type: 'music', subjects: [] },
+// @ts-ignore
+    { status: 'collect', total: 27, type: 'music', subjects: [] },
+// @ts-ignore
+    { status: 'wish', total: 21, type: 'event', subjects: [] },
+// @ts-ignore
+    { status: 'attend', total: 30, type: 'event', subjects: [] }
+  ],
 };
 
 export const fetchUserItemList = createAsyncThunk('fetchUserItemList', async (userId: string) => {
-  return new Promise<[string, ItemList]>(resolve => {
+  return new Promise<ItemList>(resolve => {
     console.log(userId);
     window.setTimeout(() => {
-      resolve([userId, testItemList]);
+      resolve(testItemList);
     }, 1000);
   });
 });
@@ -117,14 +158,12 @@ const fetchUserItemListSlice = createSlice({
   initialState: {
     isPending: false,
     error: '',
-    userId: null as string | null,
     itemList: null as ItemList | null,
   },
   reducers: {
     resetFetchUserItemList: () => ({
       isPending: false,
       error: '',
-      userId: null,
       itemList: null,
     }),
   },
@@ -132,19 +171,16 @@ const fetchUserItemListSlice = createSlice({
       .addCase(fetchUserItemList.pending, () => ({
         isPending: true,
         error: '',
-        userId: null,
         itemList: null,
       }))
       .addCase(fetchUserItemList.fulfilled, (state, action) => ({
         isPending: false,
         error: '',
-        userId: action.payload[0],
-        itemList: action.payload[1],
+        itemList: action.payload,
       }))
       .addCase(fetchUserItemList.rejected, (state, action) => ({
         isPending: false,
         error: action.error.message!!,
-        userId: null,
         itemList: null,
       })),
 });
@@ -156,7 +192,7 @@ export function createRootReducer(history: History) {
     [accountsSlice.name]: accountsSlice.reducer,
     [signInSlice.name]: signInSlice.reducer,
     [backupUsernameSlice.name]: backupUsernameSlice.reducer,
-    [userItemListSlice.name]: userItemListSlice.reducer,
+    [userItemListsSlice.name]: userItemListsSlice.reducer,
     [fetchUserItemListSlice.name]: fetchUserItemListSlice.reducer,
   });
 }
