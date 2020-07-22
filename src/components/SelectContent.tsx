@@ -3,11 +3,12 @@ import {
   ListItemText, Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { replace } from 'connected-react-router';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { ItemList } from '../api';
 
+import { ItemList } from '../api';
 import contents from '../constants/Contents';
 import {
   Account, addUserItemList, AddUserItemListArgs, fetchUserItemList, resetFetchUserItemList,
@@ -25,6 +26,7 @@ interface DispatchProps {
   fetchUserItemList: (userId: string) => void;
   resetFetchUserItemList: () => void;
   addUserItemList: (args: AddUserItemListArgs) => void;
+  replace: (location: string) => void;
 }
 
 type Props = StateProps & DispatchProps;
@@ -50,7 +52,11 @@ function SelectContent(props: Props) {
   const classes = useStyles();
   const handleCheckedChange = (event: React.ChangeEvent<HTMLInputElement>) =>
       setChecked({ ...checked, [event.target.name]: event.target.checked });
-  const handleSelectAll = () => setChecked(Object.fromEntries<boolean>(contents.map(it => [it.id, !isAllChecked])))
+  const handleSelectAllClick = () => setChecked(Object.fromEntries<boolean>(contents.map(it => [it.id, !isAllChecked])))
+  const handleBackUpClick = () => {
+    // TODO
+    props.replace('progress');
+  }
   useEffect(() => {
     if (props.account && !props.itemList && !props.isFetchingItemList) {
       if (props.fetchedItemList) {
@@ -77,7 +83,7 @@ function SelectContent(props: Props) {
           <Box position='relative'>
             <Box visibility={!!props.itemList ? 'visible' : 'hidden'}>
               <Box display='flex' justifyContent='flex-end' paddingX={2}>
-                <Button color='primary' onClick={handleSelectAll}>
+                <Button color='primary' onClick={handleSelectAllClick}>
                   {isAllChecked ? '取消全选' : '全选'}
                 </Button>
               </Box>
@@ -112,7 +118,7 @@ function SelectContent(props: Props) {
               </List>
               <Divider />
               <Box display='flex' paddingX={3} paddingY={2} justifyContent='flex-end'>
-                <Button color='primary' disabled={isNoneChecked} variant='contained'>
+                <Button color='primary' disabled={isNoneChecked} variant='contained' onClick={handleBackUpClick}>
                   开始备份
                 </Button>
               </Box>
@@ -131,7 +137,7 @@ function SelectContent(props: Props) {
 function mapState(state: RootState): StateProps {
   const account = state.accounts[state.backupUsername];
   return {
-    account: account,
+    account,
     itemList: account && state.userItemLists[account.user.id],
     isFetchingItemList: state.fetchUserItemList.isPending,
     fetchedItemList: state.fetchUserItemList.itemList,
@@ -142,6 +148,7 @@ const mapDispatch: DispatchProps = {
   fetchUserItemList,
   resetFetchUserItemList,
   addUserItemList,
+  replace,
 }
 
 export default connect(mapState, mapDispatch)(SelectContent);
